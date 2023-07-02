@@ -4,14 +4,13 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Server implements Runnable {
+public class Server implements Runnable, RequestHandler {
 
   final List validPaths = List.of("/index.html", "/spring.svg", "/spring.png", "/resources.html",
       "/styles.css", "/app.js", "/links.html", "/forms.html", "/classic.html", "/events.html",
@@ -63,7 +62,6 @@ public class Server implements Runnable {
         out.flush();
         return;
       }
-
       final var length = Files.size(filePath);
       write(out, mimeType, length);
       Files.copy(filePath, out);
@@ -81,5 +79,10 @@ public class Server implements Runnable {
             "Connection: close\r\n" +
             "\r\n"
     ).getBytes());
+  }
+
+  @Override
+  public void addHandler(String type, String path, Handler handler) {
+
   }
 }
