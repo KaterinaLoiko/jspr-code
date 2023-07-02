@@ -35,7 +35,7 @@ public class MainServlet extends HttpServlet {
                 return;
             }
             if (path.matches(PATH + "/\\d+")) {
-                final var id = Long.parseLong(path.substring(path.lastIndexOf("/")));
+                final var id = Long.parseLong(path.substring(path.lastIndexOf("/") + 1));
                 if (method.equals("GET")) {
                     controller.getById(id, resp);
                 }
